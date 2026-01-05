@@ -38,10 +38,9 @@ uint8_t appKey[16] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0
 ### 2. Máscara de Canales (Región US915)
 El código está preconfigurado para la región US915 en la sub-banda 1 (Canales 0-7), lo cual es ideal para gateways de 8 canales (como el Heltec o Dragino).
 
-/* 0x00FF habilita los primeros 8 canales (FSB 1). 
-   Cambiar si tu gateway usa otra sub-banda.
-*/
-uint16_t userChannelsMask[6]={ 0x00FF,0x0000,0x0000,0x0000,0x0000,0x0000 };
+/* 0x00FF habilita los primeros 8 canales (FSB 1). Cambiar si tu gateway usa otra sub-banda.
+
+*/ uint16_t userChannelsMask[6]={ 0x00FF,0x0000,0x0000,0x0000,0x0000,0x0000 };
 
 ### Explicación del Código
 El código funciona bajo una máquina de estados controlada por la librería LoRaWan_APP:
