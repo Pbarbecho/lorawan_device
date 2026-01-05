@@ -19,6 +19,16 @@ Este proyecto implementa un nodo final LoRaWAN utilizando la placa de desarrollo
     * LoRaWan_APP.h (Incluida en el paquete de Heltec).
     * HT_SSD1306Wire.h (Driver para la pantalla OLED).
 
+## Funcionamiento
+Al encender, la pantalla mostrará el logo de Heltec.
+
+Intentará hacer JOIN.
+
+Una vez conectado, mostrará "LoRaWAN TX" y la temperatura generada (ej. "25 °C").
+
+La pantalla se apagará y el dispositivo entrará en Deep Sleep por el tiempo configurado (por defecto 15 segundos).
+
+
 ## Configuración del Código
 
 Antes de cargar el código, es obligatorio modificar las credenciales de seguridad en el archivo LoRaWan.ino para que coincidan con las generadas en tu servidor ChirpStack.
@@ -68,3 +78,18 @@ Envía el paquete (LoRaWAN.send()).
 DEVICE_STATE_CYCLE: Calcula el tiempo de espera aleatorio para la próxima transmisión.
 
 DEVICE_STATE_SLEEP: Pone el microcontrolador en modo de bajo consumo.
+
+
+### Decodificación de Payload (ChirpStack / JS)
+El dispositivo envía la temperatura como un entero de 16 bits dividido en 2 bytes. Para leer el valor humano en ChirpStack, usa este decodificador en la pestaña "Device Profile" -> "Codec":
+
+```cpp
+function Decode(fPort, bytes, variables) {
+  // El código envía: appData[0] = High Byte, appData[1] = Low Byte
+  var temperature = (bytes[0] << 8) | bytes[1];
+  
+  return {
+    "temperatura": temperature
+  };
+}
+```
